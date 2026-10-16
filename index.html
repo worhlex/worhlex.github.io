@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отряд Дыхания Насекомого — Butterfly Estate Archive</title>
+
+    <!-- Подключение шрифтов Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // Точная цветовая палитра из ТЗ (без неона)
+                    colors: {
+                        primary: '#7862aa',      // Основной фиолетовый
+                        accentPink: '#c88391',   // Нежно-розовый акцент
+                        lightCream: '#e2dbd4',   // Светло-кремовый текст
+                        darkPurple: '#67529c',   // Глубокий фиолетовый
+                        nightBg: '#131224',      // Темный ночной фон
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Базовый фон и настройка отображения */
+        body {
+            background-color: #131224;
+            color: #e2dbd4;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Аккуратная полоса прокрутки */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131224;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #67529c;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7862aa;
+        }
+
+        /* Эффект матового стекла для текстового блока */
+        .glass-card {
+            background: rgba(120, 98, 170, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(200, 131, 145, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(19, 18, 36, 0.5);
+        }
+
+        /* Фоновый Canvas */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Линия-разделитель */
+        .divider-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #7862aa, #c88391, #7862aa, transparent);
+        }
+    </style>
+</head>
+<body class="bg-nightBg text-lightCream min-h-screen flex flex-col justify-between selection:bg-primary selection:text-lightCream antialiased">
+
+    <!-- Фоновый Canvas для плавных и детализированных падающих лепестков -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Фиксированная шапка сверху -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-[#131224]/85 backdrop-blur-md border-b border-[#7862aa]/30 px-6 py-2.5">
+        <div class="max-w-5xl mx-auto flex items-center justify-start gap-3">
+            <!-- Изображение бабочки рядом с текстом (убедитесь, что файл butterfly.jpg лежит рядом с index.html) -->
+            <img src="butterfly.png" alt="Бабочка" class="h-7 w-auto object-contain mix-blend-screen opacity-90">
+            
+            <!-- Закрепленный заголовок из ТЗ -->
+            <div class="text-xs sm:text-sm tracking-[0.2em] uppercase font-medium text-lightCream/90">
+                Отряд Дыхания Насекомого
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center">
+
+        <!-- Первый блок (Заголовок и руководство) -->
+        <section class="w-full flex flex-col items-center justify-center text-center px-6 pt-24 pb-8">
+            <div class="max-w-3xl mx-auto space-y-4">
+                
+                <!-- Декоративный элемент -->
+                <div class="flex items-center justify-center gap-3 opacity-70">
+                    <div class="w-8 h-[1px] bg-accentPink"></div>
+                    <span class="text-accentPink text-[11px] tracking-[0.3em] uppercase font-semibold">Butterfly Estate</span>
+                    <div class="w-8 h-[1px] bg-accentPink"></div>
+                </div>
+
+                <!-- Главный заголовок -->
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-normal tracking-wide leading-tight text-lightCream drop-shadow-md">
+                    Отряд Дыхания Насекомого
+                </h1>
+
+                <!-- Разделитель -->
+                <div class="divider-line w-28 sm:w-40 mx-auto my-2"></div>
+
+                <!-- Подзаголовок -->
+                <p class="text-base sm:text-xl md:text-2xl font-serif italic text-accentPink font-light tracking-wider">
+                    Под руководством Шинобу Кочо
+                </p>
+
+            </div>
+        </section>
+
+        <!-- Второй блок (Полупрозрачный текстовый блок с описанием) -->
+        <section class="w-full flex items-center justify-center px-6 py-6">
+            <div class="max-w-2xl mx-auto w-full">
+                <div class="glass-card rounded-xl p-6 sm:p-8 relative overflow-hidden">
+                    
+                    <!-- Мягкие прозрачные угловые градиенты -->
+                    <div class="absolute top-0 right-0 w-24 h-24 pointer-events-none" style="background: radial-gradient(circle at top right, rgba(200, 131, 145, 0.15), transparent 70%);"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 pointer-events-none" style="background: radial-gradient(circle at bottom left, rgba(120, 98, 170, 0.15), transparent 70%);"></div>
+
+                    <!-- Текст описания из ТЗ -->
+                    <p class="text-sm sm:text-base md:text-lg leading-relaxed sm:leading-loose font-light text-lightCream/95 text-justify sm:text-left tracking-wide">
+                        Дыхание Насекомого — уникальный стиль боя, созданный для компенсации недостатка физической силы. Основой техники являются скорость, точность движений и использование специальных ядов на основе глицинии. Члены отряда совершенствуют владение клинком, изучают свойства ядов и противоядий, а также следуют принципам дисциплины и милосердия.
+                    </p>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Подвал (Footer) — центрированный текст -->
+    <footer class="relative z-10 w-full py-5 px-6 text-center border-t border-[#7862aa]/20 bg-[#131224]/90 backdrop-blur-md mt-auto">
+        <div class="text-[#e2dbd4] font-serif text-xl md:text-2xl tracking-widest font-medium">
+            Butterfly Estate Archive
+        </div>
+    </footer>
+
+    <!-- Скрипт фоновой анимации: медленные, проработанные падающие лепестки -->
+    <script>
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Цвета лепестков из вашей палитры
+        const colors = ['#7862aa', '#c88391', '#67529c', '#e2dbd4'];
+        const petals = [];
+        const numPetals = 25;
+
+        class Petal {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * -height - 20;
+                this.sizeX = Math.random() * 6 + 4;
+                this.sizeY = Math.random() * 3 + 2;
+                this.speedY = Math.random() * 0.3 + 0.15; // Очень плавное, медленное падение
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.015;
+                this.opacity = Math.random() * 0.45 + 0.2;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.phase = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speedY;
+                // Плавное покачивание из стороны в сторону при падении
+                this.x += this.speedX + Math.sin(this.y * 0.01 + this.phase) * 0.4;
+                this.rotation += this.rotSpeed;
+
+                if (this.y > height + 20) {
+                    this.reset();
+                    this.y = -20;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                
+                // Основной лепесток
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.sizeX, this.sizeY, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Детализированный внутренний блик для объема
+                ctx.fillStyle = '#e2dbd4';
+                ctx.globalAlpha = this.opacity * 0.35;
+                ctx.beginPath();
+                ctx.ellipse(-this.sizeX * 0.2, 0, this.sizeX * 0.3, this.sizeY * 0.3, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        // Инициализация лепестков
+        for (let i = 0; i < numPetals; i++) {
+            petals.push(new Petal());
+        }
+
+        // Цикл анимации
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            petals.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = function() {
+            animate();
+        };
+    </script>
+</body>
+</html>
